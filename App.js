@@ -3,17 +3,23 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
 export default function App() {
-  const [count, setCount] = useState(0);
   const [loading, setLoading] = useState(true);
-  useEffect(()=>{
-    setTimeout(()=>{
-      setLoading(false)
-    }, 1000)
+  const [users, setUsers] = useState([]);
+  const fetchUsers = async()=>{
+    const response = await fetch('https://jsonplaceholder.typicode.com/users')
+    const json = await response.json()
+    setUsers(json)
+    setLoading(false)    
+  }
+
+  useEffect(() => {
+    fetchUsers()
   }, [])
   return (
     <View style={styles.container}>
-      <Text onPress={() => setCont(count + 1)} style={styles.text}>
-        Que más ve Caddy {loading ? 'Loading' : count}
+      <Text 
+        style={styles.text}>
+        {loading ? 'Loading' : users[0].name}
       </Text>
       <StatusBar style="auto" />
     </View>
