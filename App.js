@@ -1,26 +1,32 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState, useEffect } from "react";
+import React, { useReducer } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
-export default function App() {
-  const [loading, setLoading] = useState(true);
-  const [users, setUsers] = useState([]);
-  const fetchUsers = async()=>{
-    const response = await fetch('https://jsonplaceholder.typicode.com/users')
-    const json = await response.json()
-    setUsers(json)
-    setLoading(false)    
-  }
+const initialState = {
+  count: 0,
+};
 
-  useEffect(() => {
-    fetchUsers()
-  }, [])
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "increase": {
+      return { count: state.count + 1 };
+    }
+    case "decrease": {
+      return { count: state.count - 1 };
+    }
+    default: {
+      return state;
+    }
+  }
+};
+
+export default function App() {
+  const [state, dispatch] = useReducer(reducer, initialState);
   return (
     <View style={styles.container}>
-      <Text 
-        style={styles.text}>
-        {loading ? 'Loading' : users[0].name}
-      </Text>
+      <Text onPress={() => dispatch({type: 'increase'})}>+</Text>
+  <Text style={styles.text}>Caddy {state.count}</Text>
+      <Text onPress={() => dispatch({type: 'decrease'})}>-</Text>
       <StatusBar style="auto" />
     </View>
   );
