@@ -1,13 +1,19 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
 export default function App() {
-  const [cont, setCont] = useState(0);
+  const [count, setCount] = useState(0);
+  const [loading, setLoading] = useState(true);
+  useEffect(()=>{
+    setTimeout(()=>{
+      setLoading(false)
+    }, 1000)
+  })
   return (
     <View style={styles.container}>
-      <Text onPress={() => setCont(cont + 1)} style={styles.text}>
-        Que más ve Caddy {cont}
+      <Text onPress={() => setCont(count + 1)} style={styles.text}>
+        Que más ve Caddy {loading ? 'Loading' : count}
       </Text>
       <StatusBar style="auto" />
     </View>
