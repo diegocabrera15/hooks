@@ -9,7 +9,7 @@ export default function App() {
     setTimeout(()=>{
       setLoading(false)
     }, 1000)
-  })
+  }, [])
   return (
     <View style={styles.container}>
       <Text onPress={() => setCont(count + 1)} style={styles.text}>
